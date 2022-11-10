@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.api.generics.DTO.EmployeeDto;
-import com.api.api.generics.entities.Employee;
-import com.api.api.generics.services.GenericServices;
+import com.api.api.generics.services.EmployeeServices;
 
 @RestController
 @RequestMapping("/employee")
 public class EmployeeControllers {
 	
 	@Autowired
-	private GenericServices<Employee, EmployeeDto, Long> service;
+	private EmployeeServices service;
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EmployeeDto> findById(@PathVariable Long id){

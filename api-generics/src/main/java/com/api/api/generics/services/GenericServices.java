@@ -4,31 +4,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Service;
 
 import com.api.api.generics.utils.Convertible;
 
 //T extends Convertible<DTO> TIPO CORINGA
-@Service
-public class GenericServices<T extends Convertible<DTO>, DTO, ID> {
+public interface GenericServices<T extends Convertible<DTO>, DTO, ID> {
 
-	@Autowired
-	private JpaRepository<T, ID> repository;
 	
+	 JpaRepository<T, ID> getRepository();
+	
+	default DTO employeetById(ID id) {
 
-	public DTO employeetById(ID id) {
-
-		Optional<T> obj = repository.findById(id);
+		Optional<T> obj = getRepository().findById(id);
 
 		return obj.get().convert();
 	}
 
-	public List<DTO> listAll() {
+	default List<DTO> listAll() {
 
-		List<T> list = repository.findAll();
+		List<T> list = getRepository().findAll();
 		return list.stream().map(x -> x.convert()).collect(Collectors.toList());
 	}
-	
 }
