@@ -1,17 +1,17 @@
 package com.api.api.generics.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.api.api.generics.DTO.EmployeeDto;
+import com.api.api.generics.utils.Convertible;
+
 @Entity
 @Table(name = "tb_employee")
-public class Employee implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Employee implements Convertible<EmployeeDto> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,13 @@ public class Employee implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+	// metodo que retorna o DTO copiando os dados do proprio objeto DTO
+	@Override
+	public EmployeeDto convert() {
+		return new EmployeeDto(this);
 	}
 	
 }

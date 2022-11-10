@@ -1,7 +1,6 @@
 package com.api.api.generics.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import com.api.api.generics.services.EmployeeServices;
 public class EmployeeControllers {
 	
 	@Autowired
-	public EmployeeServices service;
+	private EmployeeServices<Employee, EmployeeDto, Long> service;
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EmployeeDto> findById(@PathVariable Long id){
@@ -31,15 +30,11 @@ public class EmployeeControllers {
 	@GetMapping()
 	public ResponseEntity<List<EmployeeDto>> findAll(){
 		
-		List<Employee> obj = service.listAll();
-		List<EmployeeDto> listDto = obj.stream().map(x -> new EmployeeDto(x)).collect(Collectors.toList());
+		List<EmployeeDto> obj = service.listAll();
 
-		return ResponseEntity.ok().body(listDto);
+		return ResponseEntity.ok().body(obj);
 
 	}
-	
-	
-	
 	
 	
 }
